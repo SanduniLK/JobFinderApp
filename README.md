@@ -178,7 +178,7 @@ flutter build ios --release
 
 | Email | Password |
 |-------|----------|
-| eve.holt@reqres.in | cityslicka |
+| eve.holt@reqres.in | Any |
 | emma.wong@reqres.in | any_password |
 | george.bluth@reqres.in | any_password |
 | janet.weaver@reqres.in | any_password |
