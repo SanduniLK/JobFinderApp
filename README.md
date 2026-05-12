@@ -1,6 +1,3 @@
-
-
-```markdown
 # 💼 Job Finder App
 
 A modern Flutter mobile application for searching and exploring job opportunities with clean UI, authentication, API integration, offline support, and responsive design.
