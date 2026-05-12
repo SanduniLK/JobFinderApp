@@ -56,10 +56,10 @@ class _SignInScreenState extends State<SignInScreen> {
             key: _formKey,
             child: Column(
               children: [
-                // ── Top wave header ──────────────────────────────────
+               
                 _buildHeader(authProvider),
 
-                // ── Scrollable content ───────────────────────────────
+               
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -67,17 +67,17 @@ class _SignInScreenState extends State<SignInScreen> {
                       children: [
                         const SizedBox(height: 28),
 
-                        // Card with form fields
+                        
                         _buildFormCard(authProvider),
 
                         const SizedBox(height: 16),
 
-                        // Sign Up Link
+                      
                         _buildSignUpLink(),
 
                         const SizedBox(height: 16),
 
-                        // Info Card
+                       
                         _buildInfoCard(authProvider),
 
                         const SizedBox(height: 30),
@@ -93,7 +93,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  // ── Header with wave + hero ────────────────────────────────────────
+ 
   Widget _buildHeader(AuthProvider authProvider) {
     return Container(
       width: double.infinity,
@@ -183,7 +183,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  // ── Status pill ───────────────────────────────────────────────────
+
   Widget _buildStatusIndicator(AuthProvider authProvider) {
     final isOnline = authProvider.isOnline;
     return Container(
@@ -226,7 +226,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  // ── White card with fields + button ──────────────────────────────
+
   Widget _buildFormCard(AuthProvider authProvider) {
     return Container(
       decoration: BoxDecoration(
@@ -256,7 +256,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  // ── Email field ───────────────────────────────────────────────────
+ 
   Widget _buildEmailField(AuthProvider authProvider) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -321,7 +321,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  // ── Password field ────────────────────────────────────────────────
+  
   Widget _buildPasswordField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -392,7 +392,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  // ── Forgot password ───────────────────────────────────────────────
+
   Widget _buildForgotPassword() {
     return Align(
       alignment: Alignment.centerRight,
@@ -422,7 +422,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  // ── Sign In button ────────────────────────────────────────────────
+ 
   Widget _buildSignInButton(AuthProvider authProvider) {
     final isLoading = _isLoading || authProvider.isLoading;
     return SizedBox(
@@ -478,7 +478,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  // ── Sign Up link ──────────────────────────────────────────────────
+  
   Widget _buildSignUpLink() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -510,7 +510,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  // ── Info card (online / offline) ──────────────────────────────────
+  
   Widget _buildInfoCard(AuthProvider authProvider) {
     if (authProvider.isOnline) {
       return Container(
@@ -574,7 +574,7 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
-  // ── Sign In logic (unchanged) ─────────────────────────────────────
+
   Future<void> _handleSignIn(AuthProvider authProvider) async {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);

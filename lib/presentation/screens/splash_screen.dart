@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // Top decorative circle
+          
           Positioned(
             top: -100,
             right: -100,
@@ -53,7 +53,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
           
-          // Bottom decorative circle
+          
           Positioned(
             bottom: -80,
             left: -80,
@@ -67,12 +67,12 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
           
-          // Main content
+        
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Lottie Animation Container
+                
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
@@ -98,7 +98,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 
                 const SizedBox(height: 30),
                 
-                // App Name with gradient
+               
                 ShaderMask(
                   shaderCallback: (bounds) => const LinearGradient(
                     begin: Alignment.topLeft,
@@ -118,7 +118,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 
                 const SizedBox(height: 8),
                 
-                // Tagline
+                
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                   decoration: BoxDecoration(
@@ -138,7 +138,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 
                 const SizedBox(height: 60),
                 
-                // Loading indicator
+                
                 SizedBox(
                   width: 24,
                   height: 24,
@@ -162,7 +162,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
           
-          // Version text at bottom
+       
           Positioned(
             bottom: 20,
             left: 0,

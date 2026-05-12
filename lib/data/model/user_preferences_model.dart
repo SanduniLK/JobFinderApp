@@ -17,7 +17,7 @@ class UserPreferencesModel {
     required this.updatedAt,
   });
   
-  /// Convert model to Map for database storage
+ 
   Map<String, dynamic> toMap() {
     return {
       'user_id': userId,
@@ -29,7 +29,7 @@ class UserPreferencesModel {
     };
   }
   
-  /// Create model from database Map
+ 
   factory UserPreferencesModel.fromMap(Map<String, dynamic> map) {
     return UserPreferencesModel(
       userId: map['user_id'],
@@ -41,7 +41,7 @@ class UserPreferencesModel {
     );
   }
   
-  /// Create a copy with updated fields
+ 
   UserPreferencesModel copyWith({
     int? userId,
     List<String>? jobFields,
@@ -60,7 +60,7 @@ class UserPreferencesModel {
     );
   }
   
-  /// Convert to JSON string
+ 
   String toJson() => json.encode({
     'user_id': userId,
     'job_fields': jobFields,
@@ -70,7 +70,7 @@ class UserPreferencesModel {
     'updated_at': updatedAt,
   });
   
-  /// Create from JSON string
+ 
   factory UserPreferencesModel.fromJson(String jsonString) {
     final Map<String, dynamic> data = json.decode(jsonString);
     return UserPreferencesModel(

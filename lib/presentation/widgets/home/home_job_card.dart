@@ -32,7 +32,7 @@ class HomeJobCard extends StatelessWidget {
               Expanded(child: Text(job['location'] ?? 'Location', style: TextStyle(color: theme.textFaint, fontSize: 12), maxLines: 1, overflow: TextOverflow.ellipsis)),
               const SizedBox(width: 8),
               Container(padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4), decoration: BoxDecoration(color: Palette.success.withOpacity(0.10), borderRadius: BorderRadius.circular(8)),
-                child: Text('\$${job['salary'] ?? 'N/A'}', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Palette.success))),
+                child: Text('${job['salary'] ?? 'N/A'}', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Palette.success))),
             ]),
           ])),
           Icon(Icons.chevron_right_rounded, color: theme.textFaint, size: 20),

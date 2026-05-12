@@ -135,7 +135,7 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Job Info Card
+                   
                     Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
@@ -188,7 +188,7 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Text(
-                                  '\$${widget.job['salary'] ?? 'N/A'}',
+                                  '${widget.job['salary'] ?? 'N/A'}',
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
@@ -222,11 +222,11 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
                     
                     const SizedBox(height: 24),
                     
-                    // Section Header
+                    
                     _buildSectionHeader(Icons.person_outline, 'Personal Information', isDark),
                     const SizedBox(height: 16),
                     
-                    // Form Fields Card
+                    
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
@@ -282,7 +282,7 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
                     
                     const SizedBox(height: 20),
                     
-                    // Cover Letter Section
+                    
                     _buildSectionHeader(Icons.description_outlined, 'Cover Letter', isDark),
                     const SizedBox(height: 16),
                     
@@ -324,7 +324,7 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
                     
                     const SizedBox(height: 20),
                     
-                    // Terms & Conditions
+                    
                     Row(
                       children: [
                         Checkbox(
@@ -344,7 +344,7 @@ class _ApplyJobScreenState extends State<ApplyJobScreen> {
                     
                     const SizedBox(height: 24),
                     
-                    // Submit Button
+                  
                     SizedBox(
                       width: double.infinity,
                       height: 54,

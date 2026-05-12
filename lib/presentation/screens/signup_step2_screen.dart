@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:job_finder/core/constants/app_colors.dart';
 
 class SignUpStep2Screen extends StatefulWidget {
-  // Fixed: use_super_parameters
+  
   const SignUpStep2Screen({super.key});
 
   @override
@@ -37,7 +37,7 @@ class _SignUpStep2ScreenState extends State<SignUpStep2Screen> {
           icon: Icon(Icons.chevron_left_rounded, color: isDark ? Colors.white : Colors.black, size: 30),
           onPressed: () => Navigator.pop(context),
         ),
-        // Fixed: Argument error - passing the actual integer 2
+        
         title: _buildProgressIndicator(2), 
       ),
       body: Consumer<AuthProvider>(
@@ -98,7 +98,7 @@ class _SignUpStep2ScreenState extends State<SignUpStep2Screen> {
     );
   }
 
-  // --- Fixed Components ---
+
 
   Widget _buildProgressIndicator(int currentStep) {
     return Row(
@@ -123,7 +123,7 @@ class _SignUpStep2ScreenState extends State<SignUpStep2Screen> {
             ),
           );
         }
-        // Fixed: deprecated_member_use replaced with withValues
+       
         return Container(
           width: 20,
           height: 2, 

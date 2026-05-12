@@ -23,7 +23,7 @@ class HomeJobDetailsSheet extends StatelessWidget {
             Text(job['title'] ?? 'Job Title', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w800, color: theme.text, height: 1.1)),
             const SizedBox(height: 24),
             _DetailRow(icon: Icons.location_on_outlined, label: 'Location', value: job['location'] ?? 'N/A', theme: theme),
-            _DetailRow(icon: Icons.attach_money_rounded, label: 'Salary', value: '\$${job['salary'] ?? 'N/A'}', theme: theme, valueColor: Palette.success),
+            _DetailRow(icon: Icons.attach_money_rounded, label: 'Salary', value: '${job['salary'] ?? 'N/A'}', theme: theme, valueColor: Palette.success),
             _DetailRow(icon: Icons.category_outlined, label: 'Area', value: job['jobArea'] ?? 'N/A', theme: theme),
             _DetailRow(icon: Icons.business_outlined, label: 'Company', value: job['company'] ?? job['type'] ?? 'N/A', theme: theme),
             const SizedBox(height: 24),

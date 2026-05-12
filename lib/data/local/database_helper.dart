@@ -26,7 +26,7 @@ class DatabaseHelper {
       onUpgrade: _onUpgrade,
     );
     
-    // ✅ Fixed: Call after database is opened
+    
     await _ensureTablesExist(db);
     
     return db;
@@ -115,10 +115,9 @@ class DatabaseHelper {
       ''');
     }
   }
-
-  // ✅ Fixed: Pass database as parameter
+ 
   Future<void> _ensureTablesExist(Database db) async {
-    // Check if user_preferences table exists
+   
     final result = await db.rawQuery(
       "SELECT name FROM sqlite_master WHERE type='table' AND name='user_preferences'"
     );
@@ -135,10 +134,10 @@ class DatabaseHelper {
           FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
         )
       ''');
-      print('✅ Created missing user_preferences table');
+      print('Created missing user_preferences table');
     }
     
-    // Check if jobs table exists
+    
     final jobsResult = await db.rawQuery(
       "SELECT name FROM sqlite_master WHERE type='table' AND name='jobs'"
     );
@@ -162,11 +161,11 @@ class DatabaseHelper {
           is_synced INTEGER DEFAULT 0
         )
       ''');
-      print('✅ Created missing jobs table');
+      print('Created missing jobs table');
     }
   }
 
-  // ============ USER OPERATIONS ============
+  
   
   Future<int> insertUser(Map<String, dynamic> user) async {
     Database db = await database;
@@ -195,7 +194,6 @@ class DatabaseHelper {
     return null;
   }
 
-  // ============ USER PREFERENCES ============
   
   Future<void> saveUserPreferences(Map<String, dynamic> preferences) async {
     Database db = await database;
@@ -217,7 +215,7 @@ class DatabaseHelper {
     return null;
   }
   
-  // ============ JOB OPERATIONS ============
+
   
   Future<int> insertJob(Map<String, dynamic> job) async {
     Database db = await database;
@@ -284,11 +282,7 @@ class DatabaseHelper {
     Database db = await database;
     await db.delete('jobs');
   }
-  // ============ UPDATE METHODS FOR DATABASE HELPER ============
-
-// Add these methods to your existing DatabaseHelper class
-
-// 1. Update User Basic Information
+  
 Future<int> updateUser(int userId, Map<String, dynamic> user) async {
   Database db = await database;
   return await db.update(
@@ -299,7 +293,6 @@ Future<int> updateUser(int userId, Map<String, dynamic> user) async {
   );
 }
 
-// 2. Update User Preferences
 Future<int> updateUserPreferences(int userId, Map<String, dynamic> preferences) async {
   Database db = await database;
   return await db.update(
@@ -310,7 +303,7 @@ Future<int> updateUserPreferences(int userId, Map<String, dynamic> preferences) 
   );
 }
 
-// 3. Update Single Job Field in Preferences
+
 Future<int> updateJobFields(int userId, List<String> jobFields) async {
   Database db = await database;
   return await db.update(
@@ -321,7 +314,7 @@ Future<int> updateJobFields(int userId, List<String> jobFields) async {
   );
 }
 
-// 4. Update Single Job Title in Preferences
+
 Future<int> updateJobTitles(int userId, List<String> jobTitles) async {
   Database db = await database;
   return await db.update(
@@ -332,7 +325,7 @@ Future<int> updateJobTitles(int userId, List<String> jobTitles) async {
   );
 }
 
-// 5. Update Expected Salary
+
 Future<int> updateExpectedSalary(int userId, double salary) async {
   Database db = await database;
   return await db.update(
@@ -343,7 +336,7 @@ Future<int> updateExpectedSalary(int userId, double salary) async {
   );
 }
 
-// 6. Update Work Mode
+
 Future<int> updateWorkMode(int userId, String workMode) async {
   Database db = await database;
   return await db.update(
@@ -354,7 +347,7 @@ Future<int> updateWorkMode(int userId, String workMode) async {
   );
 }
 
-// 7. Update User Password
+
 Future<int> updateUserPassword(int userId, String newPassword) async {
   Database db = await database;
   return await db.update(
@@ -365,7 +358,7 @@ Future<int> updateUserPassword(int userId, String newPassword) async {
   );
 }
 
-// 8. Update User Name Only
+
 Future<int> updateUserName(int userId, String newName) async {
   Database db = await database;
   return await db.update(
@@ -376,7 +369,7 @@ Future<int> updateUserName(int userId, String newName) async {
   );
 }
 
-// 9. Update User Email Only
+
 Future<int> updateUserEmail(int userId, String newEmail) async {
   Database db = await database;
   return await db.update(
@@ -387,7 +380,7 @@ Future<int> updateUserEmail(int userId, String newEmail) async {
   );
 }
 
-// 10. Update Multiple Preferences at Once
+
 Future<int> updateAllPreferences(int userId, {
   List<String>? jobFields,
   List<String>? jobTitles,
@@ -411,7 +404,7 @@ Future<int> updateAllPreferences(int userId, {
   );
 }
 
-// 11. Update Job (for job CRUD)
+
 Future<int> updateJob(Map<String, dynamic> job) async {
   Database db = await database;
   return await db.update(
@@ -422,7 +415,7 @@ Future<int> updateJob(Map<String, dynamic> job) async {
   );
 }
 
-// 12. Update Job Sync Status
+
 Future<int> updateJobSyncStatus(int jobId, int isSynced) async {
   Database db = await database;
   return await db.update(
@@ -430,6 +423,34 @@ Future<int> updateJobSyncStatus(int jobId, int isSynced) async {
     {'is_synced': isSynced},
     where: 'id = ?',
     whereArgs: [jobId],
+  );
+}
+Future<int> deleteUser(int userId) async {
+  Database db = await database;
+  return await db.delete(
+    'users',
+    where: 'id = ?',
+    whereArgs: [userId],
+  );
+}
+
+
+Future<int> deleteUserPreferences(int userId) async {
+  Database db = await database;
+  return await db.delete(
+    'user_preferences',
+    where: 'user_id = ?',
+    whereArgs: [userId],
+  );
+}
+
+
+Future<int> deleteUserJobs(int userId) async {
+  Database db = await database;
+  return await db.delete(
+    'jobs',
+    where: 'posted_by = ?',
+    whereArgs: [userId],
   );
 }
 }

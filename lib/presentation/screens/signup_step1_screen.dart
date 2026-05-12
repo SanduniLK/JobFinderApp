@@ -67,7 +67,7 @@ class _SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 20),
-                  // Progress Header
+                
                   _buildProgressIndicator(1),
                   
                   const SizedBox(height: 32),

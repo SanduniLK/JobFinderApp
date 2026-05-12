@@ -44,47 +44,81 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  Future<void> _deleteAccount() async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('Delete Account'),
-        content: const Text(
-          'Are you sure? This action cannot be undone. All your data will be permanently deleted.',
+ Future<void> _deleteAccount() async {
+  final authProvider = Provider.of<AuthProvider>(context, listen: false);
+  
+  
+  final confirm = await showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      title: const Text('Delete Account'),
+      content: const Text(
+        'Are you sure? This action cannot be undone.\n\n'
+        'All your data including:\n'
+        '• Profile information\n'
+        '• Job preferences\n'
+        '• Saved jobs\n'
+        '• Applications\n\n'
+        'will be permanently deleted.',
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: const Text('Cancel'),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () async {
-              Navigator.pop(context);
-              if (authProvider.currentUser != null) {
-                await authProvider.logout();
-              }
-              if (mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Account deleted successfully'),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const SignInScreen()),
-                );
-              }
-            },
-            child: const Text('Delete', style: TextStyle(color: Colors.red)),
-          ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, true),
+          child: const Text('Delete', style: TextStyle(color: Colors.red)),
+        ),
+      ],
+    ),
+  );
+  
+  if (confirm != true) return;
+  
+  
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(),
+          SizedBox(height: 16),
+          Text('Deleting account...'),
         ],
+      ),
+    ),
+  );
+  
+  
+  final success = await authProvider.deleteAccount();
+  
+  
+  if (mounted) Navigator.pop(context);
+  
+  if (!mounted) return;
+  
+  if (success) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Account deleted successfully'),
+        backgroundColor: Colors.green,
+      ),
+    );
+    
+    Navigator.pushReplacementNamed(context, '/signin');
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(authProvider.errorMessage ?? 'Failed to delete account'),
+        backgroundColor: Colors.red,
       ),
     );
   }
+}
 
   List<String> _getListFromJson(dynamic data) {
     if (data == null) return [];
@@ -184,7 +218,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Profile Header Card
+              
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -276,7 +310,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               const SizedBox(height: 20),
 
-              // Account Info Card
+              
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -329,7 +363,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               const SizedBox(height: 16),
 
-              // Job Preferences Card
+              
               if (!_isLoading && _userPreferences != null)
                 Container(
                   width: double.infinity,
@@ -370,7 +404,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Job Fields
+                            
                             if (_getListFromJson(_userPreferences!['job_fields']).isNotEmpty) ...[
                               const Text(
                                 'Job Fields',
@@ -404,7 +438,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               const SizedBox(height: 16),
                             ],
 
-                            // Job Titles
+                            
                             if (_getListFromJson(_userPreferences!['job_titles']).isNotEmpty) ...[
                               const Text(
                                 'Job Titles',
@@ -438,13 +472,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               const SizedBox(height: 16),
                             ],
 
-                            // Salary & Work Mode Row
+                         
                             Row(
                               children: [
                                 Expanded(
                                   child: _buildInfoRow(
                                     'Expected Salary',
-                                    '\$${(_userPreferences!['expected_salary'] ?? 50000).toStringAsFixed(0)}',
+                                    '${(_userPreferences!['expected_salary'] ?? 50000).toStringAsFixed(0)}',
                                     Icons.attach_money,
                                     isDark,
                                   ),
@@ -469,7 +503,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               const SizedBox(height: 24),
 
-              // Logout Button
+             
               SizedBox(
                 width: double.infinity,
                 height: 50,
@@ -502,7 +536,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               const SizedBox(height: 12),
 
-              // Delete Account Button
+              
               SizedBox(
                 width: double.infinity,
                 height: 50,

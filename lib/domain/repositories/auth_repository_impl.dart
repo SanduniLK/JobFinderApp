@@ -15,7 +15,7 @@ class AuthRepositoryImpl implements AuthRepository {
     if (userData == null) return null;
     if (userData['password'] != password) return null;
     
-    // Save session
+   
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('user_id', userData['id']);
     await prefs.setString('user_name', userData['name']);
@@ -41,8 +41,7 @@ class AuthRepositoryImpl implements AuthRepository {
     );
     
     final userId = await _databaseHelper.insertUser(userModel.toMap());
-    
-    // Save session
+   
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('user_id', userId);
     await prefs.setString('user_name', name);

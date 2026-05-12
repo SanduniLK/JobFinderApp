@@ -17,9 +17,9 @@ class AuthProvider extends ChangeNotifier {
   UserPreferencesModel? _userPreferences;
   bool _isLoading = false;
   String? _errorMessage;
-  bool _isOnline = false;  // Start as false
+  bool _isOnline = false;  
 
-  // Getters
+  
   User? get currentUser => _currentUser;
   UserPreferencesModel? get userPreferences => _userPreferences;
   bool get isLoading => _isLoading;
@@ -45,11 +45,10 @@ class AuthProvider extends ChangeNotifier {
     _checkConnectivity();
   }
 
-  // ✅ REAL connectivity check
+
   Future<void> _checkConnectivity() async {
     await _updateConnectivityStatus();
-    
-    // Check every 5 seconds
+ 
     Timer.periodic(const Duration(seconds: 5), (timer) async {
       await _updateConnectivityStatus();
     });
@@ -60,25 +59,29 @@ class AuthProvider extends ChangeNotifier {
     _isOnline = await _hasRealInternet();
     
     if (wasOnline != _isOnline) {
-      log('🌐 Connection changed: ${_isOnline ? "ONLINE" : "OFFLINE"}');
+      log('Connection changed: ${_isOnline ? "ONLINE" : "OFFLINE"}');
       notifyListeners();
     }
   }
   
   Future<bool> _hasRealInternet() async {
-    try {
-      // Try to actually reach the API
-      final result = await InternetAddress.lookup('reqres.in').timeout(
-        const Duration(seconds: 3),
-        onTimeout: () => [],
-      );
-      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
-    } on SocketException catch (_) {
-      return false;
-    } catch (_) {
-      return false;
-    }
+  try {
+    
+    final results = await Future.wait([
+      InternetAddress.lookup('google.com').timeout(const Duration(seconds: 2)),
+      InternetAddress.lookup('cloudflare.com').timeout(const Duration(seconds: 2)),
+      InternetAddress.lookup('8.8.8.8').timeout(const Duration(seconds: 2)),
+    ]);
+    
+    return results.any((result) => result.isNotEmpty && result[0].rawAddress.isNotEmpty);
+  } on SocketException catch (_) {
+    return false;
+  } on TimeoutException catch (_) {
+    return false;
+  } catch (_) {
+    return false;
   }
+}
 
   Future<void> _checkAuthStatus() async {
     final prefs = await SharedPreferences.getInstance();
@@ -102,7 +105,7 @@ class AuthProvider extends ChangeNotifier {
     final prefsData = await _databaseHelper.fetchUserPreferences(userId);
     if (prefsData != null) {
       _userPreferences = UserPreferencesModel.fromMap(prefsData);
-      log('✅ Loaded preferences from SQLite');
+      log('Loaded preferences from SQLite');
     }
   }
 
@@ -110,7 +113,7 @@ class AuthProvider extends ChangeNotifier {
     _tempName = name;
     _tempEmail = email;
     _tempPassword = password;
-    log('📝 Step 1 saved: $email');
+    log(' Step 1 saved: $email');
   }
   
   void toggleJobField(String field) {
@@ -141,17 +144,17 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
   
-  // ============ COMPLETE SIGN UP ============
+  
   Future<bool> completeSignUp() async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      log('📝 SIGN UP - Real connection: ${_isOnline ? "ONLINE" : "OFFLINE"}');
-      log('📝 Email: $_tempEmail');
+      log(' SIGN UP - Real connection: ${_isOnline ? "ONLINE" : "OFFLINE"}');
+      log('Email: $_tempEmail');
       
-      // Check if email already exists
+      
       final existingUser = await _databaseHelper.getUserByEmail(_tempEmail!);
       if (existingUser != null) {
         _errorMessage = 'Email already registered';
@@ -162,7 +165,7 @@ class AuthProvider extends ChangeNotifier {
       
       int userId;
       
-      // ✅ TRUE ONLINE: Has real internet connection
+      
       if (_isOnline) {
         log('🌐 ONLINE MODE: Calling ReqRes API...');
         
@@ -174,7 +177,7 @@ class AuthProvider extends ChangeNotifier {
           ).timeout(const Duration(seconds: 10));
           
           if (result != null && result['success'] == true) {
-            log('✅ API registration successful!');
+            log(' API registration successful!');
             
             final userMap = {
               'name': _tempName,
@@ -184,7 +187,7 @@ class AuthProvider extends ChangeNotifier {
               'created_at': DateTime.now().toIso8601String(),
             };
             userId = await _databaseHelper.insertUser(userMap);
-            log('✅ User saved to SQLite cache');
+            log('User saved to SQLite cache');
           } else {
             _errorMessage = 'API registration failed';
             _isLoading = false;
@@ -199,7 +202,7 @@ class AuthProvider extends ChangeNotifier {
           return false;
         }
       } else {
-        // ✅ TRUE OFFLINE: NO API CALL - SQLite ONLY
+        
         log('📱 OFFLINE MODE: Saving to SQLite only (NO API CALL)');
         
         final userMap = {
@@ -209,10 +212,10 @@ class AuthProvider extends ChangeNotifier {
           'created_at': DateTime.now().toIso8601String(),
         };
         userId = await _databaseHelper.insertUser(userMap);
-        log('✅ User saved to SQLite (offline mode, no API)');
+        log(' User saved to SQLite (offline mode, no API)');
       }
       
-      // Save preferences to SQLite
+     
       final preferencesMap = {
         'user_id': userId,
         'job_fields': json.encode(_selectedJobFields),
@@ -222,7 +225,7 @@ class AuthProvider extends ChangeNotifier {
         'updated_at': DateTime.now().toIso8601String(),
       };
       await _databaseHelper.saveUserPreferences(preferencesMap);
-      log('✅ Preferences saved to SQLite');
+      log('Preferences saved to SQLite');
       
       _currentUser = User(
         id: userId,
@@ -235,7 +238,7 @@ class AuthProvider extends ChangeNotifier {
       await prefs.setString('user_name', _tempName!);
       await prefs.setString('user_email', _tempEmail!);
       
-      // Clear temp data
+      
       _tempName = null;
       _tempEmail = null;
       _tempPassword = null;
@@ -246,30 +249,30 @@ class AuthProvider extends ChangeNotifier {
       
       _isLoading = false;
       notifyListeners();
-      log('✅ SIGN UP COMPLETED!');
+      log('SIGN UP COMPLETED!');
       return true;
       
     } catch (e) {
       _errorMessage = 'Error: ${e.toString()}';
-      log('❌ Sign up error: $e');
+      log('Sign up error: $e');
       _isLoading = false;
       notifyListeners();
       return false;
     }
   }
 
-  // ============ SIGN IN ============
+  
   Future<bool> signIn(String email, String password) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
-    log('🔐 SIGN IN - Real connection: ${_isOnline ? "ONLINE" : "OFFLINE"}');
+    log(' SIGN IN - Real connection: ${_isOnline ? "ONLINE" : "OFFLINE"}');
 
     try {
-      // ✅ TRUE OFFLINE: ONLY use SQLite
+      
       if (!_isOnline) {
-        log('📱 OFFLINE MODE: Checking SQLite only (NO API CALL)');
+        log('OFFLINE MODE: Checking SQLite only (NO API CALL)');
         
         final userData = await _databaseHelper.getUserByEmail(email);
         
@@ -300,12 +303,12 @@ class AuthProvider extends ChangeNotifier {
         
         _isLoading = false;
         notifyListeners();
-        log('✅ OFFLINE sign in successful!');
+        log('OFFLINE sign in successful!');
         return true;
       }
       
-      // ✅ TRUE ONLINE: Use API
-      log('🌐 ONLINE MODE: Calling ReqRes API...');
+      
+      log('ONLINE MODE: Calling ReqRes API...');
       
       final result = await _apiService.login(email, password);
       
@@ -316,12 +319,12 @@ class AuthProvider extends ChangeNotifier {
         return false;
       }
       
-      log('✅ API login successful!');
+      log(' API login successful!');
       
       var userData = await _databaseHelper.getUserByEmail(email);
       
       if (userData == null) {
-        // Cache user to SQLite
+      
         final userMap = {
           'name': email.split('@')[0],
           'email': email,
@@ -331,7 +334,7 @@ class AuthProvider extends ChangeNotifier {
         };
         final userId = await _databaseHelper.insertUser(userMap);
         userData = await _databaseHelper.getUserById(userId);
-        log('✅ User cached to SQLite');
+        log('User cached to SQLite');
       }
       
       _currentUser = User(
@@ -347,12 +350,12 @@ class AuthProvider extends ChangeNotifier {
       
       _isLoading = false;
       notifyListeners();
-      log('✅ ONLINE sign in successful!');
+      log('ONLINE sign in successful!');
       return true;
       
     } catch (e) {
       _errorMessage = 'Error: ${e.toString()}';
-      log('❌ Sign in error: $e');
+      log(' Sign in error: $e');
       _isLoading = false;
       notifyListeners();
       return false;
@@ -368,7 +371,7 @@ void updateCurrentUser({required String name, required String email}) {
     );
     notifyListeners();
     
-    // Update SharedPreferences
+    
     SharedPreferences.getInstance().then((prefs) {
       prefs.setString('user_name', name);
       prefs.setString('user_email', email);
@@ -396,7 +399,7 @@ Future<void> updateUserPreferences({
   required String workMode,
 }) async {
   if (_currentUser != null) {
-    // Update in database
+    
     final preferencesMap = {
       'user_id': _currentUser!.id,
       'job_fields': json.encode(jobFields),
@@ -408,7 +411,7 @@ Future<void> updateUserPreferences({
     
     await _databaseHelper.updateUserPreferences(_currentUser!.id!, preferencesMap);
     
-    // Update local preferences object
+   
     _userPreferences = UserPreferencesModel(
       userId: _currentUser!.id!,
       jobFields: jobFields,
@@ -418,24 +421,28 @@ Future<void> updateUserPreferences({
       updatedAt: DateTime.now().toIso8601String(),
     );
     
-    // Notify all listeners (Home Screen will rebuild)
+    
     notifyListeners();
     
-    log('✅ User preferences updated and notified');
+    log(' User preferences updated and notified');
   }
 }
 
-// Add method to reload preferences
+
 Future<void> reloadPreferences() async {
   if (_currentUser != null) {
     final prefsData = await _databaseHelper.fetchUserPreferences(_currentUser!.id!);
     if (prefsData != null) {
       _userPreferences = UserPreferencesModel.fromMap(prefsData);
       notifyListeners();
-      log('✅ Preferences reloaded: ${_userPreferences?.jobFields.length} fields, ${_userPreferences?.jobTitles.length} titles');
+      print('Preferences reloaded: ${_userPreferences?.jobFields}');
+    } else {
+      print('No preferences found for user ${_currentUser!.id}');
     }
   }
 }
+  
+ 
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
@@ -444,4 +451,66 @@ Future<void> reloadPreferences() async {
     notifyListeners();
     log('👋 User logged out');
   }
+  Future<bool> deleteAccount() async {
+  _isLoading = true;
+  _errorMessage = null;
+  notifyListeners();
+
+  try {
+  
+    final userId = _currentUser?.id;
+    final apiId = _currentUser?.id?.toString(); 
+    
+    if (userId == null) {
+      _errorMessage = 'User not found';
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+    
+  
+    if (_isOnline) {
+      try {
+        final apiDeleted = await _apiService.deleteUserAccount(userId.toString());
+        if (apiDeleted) {
+          print('Account deleted from API');
+        } else {
+          print(' API delete failed, but continuing with local delete');
+        }
+      } catch (e) {
+        print(' API delete error: $e, continuing with local delete');
+      }
+    }
+    
+    
+    final localDeleted = await _databaseHelper.deleteUser(userId);
+    
+    if (localDeleted > 0) {
+      print(' Account deleted from SQLite');
+      
+      
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
+      
+      
+      _currentUser = null;
+      _userPreferences = null;
+      
+      _isLoading = false;
+      notifyListeners();
+      
+      return true;
+    } else {
+      _errorMessage = 'Failed to delete account from local database';
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  } catch (e) {
+    _errorMessage = 'Error deleting account: ${e.toString()}';
+    _isLoading = false;
+    notifyListeners();
+    return false;
+  }
+}
 }

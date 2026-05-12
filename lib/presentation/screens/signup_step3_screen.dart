@@ -38,7 +38,7 @@ class _SignUpStep3ScreenState extends State<SignUpStep3Screen> {
 
           return Column(
             children: [
-              // Modern Progress Indicator
+              
               Container(
   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
   child: Column(
@@ -54,7 +54,7 @@ class _SignUpStep3ScreenState extends State<SignUpStep3Screen> {
         ],
       ),
       const SizedBox(height: 16),
-      // Animated Status Chip
+     
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
@@ -108,7 +108,7 @@ class _SignUpStep3ScreenState extends State<SignUpStep3Screen> {
                       
                       const SizedBox(height: 40),
                       
-                      // Expected Salary Section
+                      
                       Row(
                         children: [
                           Container(
@@ -132,7 +132,7 @@ class _SignUpStep3ScreenState extends State<SignUpStep3Screen> {
                       ),
                       const SizedBox(height: 20),
                       
-                      // Modern Salary Card
+                      
                       Container(
                         padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(
@@ -152,7 +152,7 @@ class _SignUpStep3ScreenState extends State<SignUpStep3Screen> {
                         child: Column(
                           children: [
                             Text(
-                              '\$${_salary.toStringAsFixed(0)}',
+                              '${_salary.toStringAsFixed(0)}',
                               style: TextStyle(
                                 fontSize: 42,
                                 fontWeight: FontWeight.bold,
@@ -165,7 +165,7 @@ class _SignUpStep3ScreenState extends State<SignUpStep3Screen> {
                               min: 30000,
                               max: 200000,
                               divisions: 170,
-                              label: '\$${_salary.toStringAsFixed(0)}',
+                              label: '${_salary.toStringAsFixed(0)}',
                               onChanged: (value) {
                                 setState(() {
                                   _salary = value;
@@ -213,7 +213,7 @@ class _SignUpStep3ScreenState extends State<SignUpStep3Screen> {
                       
                       const SizedBox(height: 32),
                       
-                      // Work Mode Section
+                     
                       Row(
                         children: [
                           Container(
@@ -237,7 +237,7 @@ class _SignUpStep3ScreenState extends State<SignUpStep3Screen> {
                       ),
                       const SizedBox(height: 20),
                       
-                      // Modern Work Mode Options
+                     
                       Row(
                         children: [
                           _buildWorkModeCard(
@@ -285,7 +285,7 @@ class _SignUpStep3ScreenState extends State<SignUpStep3Screen> {
                 ),
               ),
               
-              // Complete Button - Sticky Bottom
+              
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(

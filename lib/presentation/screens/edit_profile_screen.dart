@@ -96,13 +96,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     
     if (user == null) throw Exception('User not found');
     
-    // Update user basic info
+   
     await _databaseHelper.updateUser(user.id!, {
       'name': _nameController.text,
       'email': _emailController.text,
     });
     
-    // ✅ Update preferences using AuthProvider
+    
     await authProvider.updateUserPreferences(
       jobFields: _selectedJobFields,
       jobTitles: _selectedJobTitles,
@@ -178,7 +178,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            // ✅ FIX: Use pop instead of close
+           
             Navigator.pop(context);
           },
         ),
@@ -209,7 +209,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Avatar Section
+              
               Center(
                 child: Stack(
                   children: [
@@ -249,7 +249,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               const SizedBox(height: 32),
 
-              // Basic Info
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -306,7 +305,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               const SizedBox(height: 16),
 
-              // Job Fields
+              
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -355,7 +354,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               const SizedBox(height: 16),
 
-              // Job Titles
+              
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -404,7 +403,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               const SizedBox(height: 16),
 
-              // Salary & Work Mode
+             
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -430,7 +429,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Expected Salary: \$${_expectedSalary.toStringAsFixed(0)}',
+                      'Expected Salary: ${_expectedSalary.toStringAsFixed(0)}',
                       style: TextStyle(
                         color: isDark ? Colors.grey[300] : Colors.grey[700],
                       ),

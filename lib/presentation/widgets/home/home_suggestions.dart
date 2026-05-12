@@ -185,7 +185,7 @@ class _SuggestionCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  '\$${job['salary'] ?? 'N/A'}',
+                  '${job['salary'] ?? 'N/A'}',
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
