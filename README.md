@@ -283,6 +283,19 @@ dependencies:
 | Delete Account | ✅ |
 
 ---
+## 📱 Download APK
+
+<p align="center">
+  <a href="https://drive.google.com/file/d/1Y_H2lwBZ-x9MA2H02biP_iL3s5N8QIjo/view?usp=sharing">
+    <img src="https://img.shields.io/badge/Download_APK-00C853?style=for-the-badge&logo=android&logoColor=white" />
+  </a>
+</p>
+
+<p align="center">
+  <b>Version 1.0.0</b> | Size: ~25 MB | Android 5.0+
+</p>
+
+---
 
 ## 🤝 Contributing
 
